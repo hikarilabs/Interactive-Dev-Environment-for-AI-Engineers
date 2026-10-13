@@ -540,6 +540,8 @@ if ($codeInTerminal) {
     }
 } elseif ($terminal -eq 'JetBrains IDE') {
     Write-Info 'VS Code' "not installed (fine: you're using a JetBrains IDE)"
+} elseif ($env:CI -eq 'true') {
+    Write-Info 'VS Code' 'not installed (fine on a CI runner)'
 } else {
     Write-Warn 'VS Code' 'not installed'
     Write-Hint 'Install it from code.visualstudio.com (step 1 of the guide), then run the setup again'

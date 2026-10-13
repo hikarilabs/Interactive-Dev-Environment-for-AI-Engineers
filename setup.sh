@@ -563,6 +563,8 @@ elif [ "$IS_WSL" -eq 1 ]; then
 elif [ "$OS" = Darwin ] && [ -d "$HOME/Downloads/Visual Studio Code.app" ]; then
   warn "VS Code" "is still in Downloads"
   hint "Drag Visual Studio Code from Downloads into Applications, then run the setup again"
+elif [ "${CI:-}" = "true" ]; then
+  info "VS Code" "not installed (fine on a CI runner)"
 else
   warn "VS Code" "not installed"
   hint "Install it from code.visualstudio.com (step 1 of the guide), then run the setup again"
