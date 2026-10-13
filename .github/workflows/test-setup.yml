@@ -1,0 +1,153 @@
+# Runs the real setup scripts on GitHub-hosted macOS, Linux and Windows machines,
+# twice each (the second run proves "safe to run again"), then runs --check /
+# Check the way a student would after restarting their editor.
+#
+# Limits worth knowing:
+#  - Runners come with Git, Node and Python preinstalled, so this exercises the
+#    "already installed" paths, not a factory-fresh laptop. Do a fresh-machine
+#    run before each cohort (Windows Sandbox on Win 11 Pro, a macOS VM).
+#  - The Git identity and GitHub SSH steps need a human, so they're skipped
+#    (--tools-only / -ToolsOnly).
+#  - GitHub sets CI=true, so the scripts take default answers and never wait
+#    for input. --yes / -Yes says so explicitly as well.
+
+name: Test setup scripts
+
+on:
+  push:
+    paths:
+      - setup.sh
+      - setup.ps1
+      - .github/workflows/test-setup.yml
+  pull_request:
+    paths:
+      - setup.sh
+      - setup.ps1
+      - .github/workflows/test-setup.yml
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays: catches upstream changes (uv, nvm, Claude Code, winget IDs)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: ShellCheck
+        run: shellcheck setup.sh
+      - name: PowerShell scripts parse, stay ASCII-only, and pass PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $failed = $false
+          foreach ($file in @('setup.ps1')) {
+            $errors = $null; $tokens = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $file), [ref]$tokens, [ref]$errors)
+            foreach ($e in $errors) { Write-Host "::error file=$file,line=$($e.Extent.StartLineNumber)::$($e.Message)"; $failed = $true }
+            # Windows PowerShell 5.1 misreads non-ASCII characters in files without a BOM.
+            $n = 0
+            foreach ($line in Get-Content $file) {
+              $n++
+              if ($line -match '[^\x00-\x7F]') { Write-Host "::error file=$file,line=$n::Non-ASCII character"; $failed = $true }
+            }
+          }
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          $issues = Invoke-ScriptAnalyzer -Path setup.ps1 -Severity Error
+          foreach ($i in $issues) { Write-Host "::error file=$($i.ScriptName),line=$($i.Line)::$($i.Message)"; $failed = $true }
+          if ($failed) { exit 1 }
+
+  mac-linux:
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest      # Apple Silicon
+            login_shell: zsh      # what students get on a Mac
+          - os: ubuntu-latest
+            login_shell: bash
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      SHELL: /bin/${{ matrix.login_shell }}
+      INSTALL_HOMEBREW: "no"
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup, first run
+        run: bash ./setup.sh --yes --tools-only < /dev/null
+
+      - name: Setup, second run (must be safe to repeat)
+        run: bash ./setup.sh --yes --tools-only < /dev/null
+
+      - name: Check (read-only)
+        run: bash ./setup.sh --check --tools-only
+
+      # What a student does in each new terminal: load the tools, then use them.
+      - name: Tools work after loading env.sh in a new ${{ matrix.login_shell }} session
+        run: ${{ matrix.login_shell }} -c 'source ~/ai-eng/env.sh && uv --version && uv python find ">=3.12,<3.15" && node --version && npm --version && claude --version'
+
+      - name: Collect report
+        if: always()
+        run: mkdir -p report && cp ~/ai-eng/setup-report.txt ~/ai-eng/setup.log report/ 2>/dev/null || true
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-report-${{ matrix.os }}
+          path: report/
+          if-no-files-found: ignore
+
+  windows:
+    needs: lint
+    runs-on: windows-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: powershell   # Windows PowerShell 5.1, the default terminal in VS Code on Windows
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup, first run
+        run: |
+          powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\setup.ps1 -Yes -ToolsOnly
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+
+      - name: Setup, second run (must be safe to repeat)
+        run: |
+          powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\setup.ps1 -Yes -ToolsOnly
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+
+      - name: Check (read-only)
+        run: |
+          powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .\setup.ps1 -Check -ToolsOnly
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+
+      # What a student does in each new terminal: load the tools, then use them.
+      - name: Tools work after loading env.ps1
+        run: |
+          . "$HOME\ai-eng\env.ps1"
+          foreach ($c in 'uv', 'node', 'npm.cmd', 'claude') {
+            & $c --version
+            if ($LASTEXITCODE) { Write-Host "::error::$c doesn't work after loading env.ps1"; exit 1 }
+          }
+          uv python find '>=3.12,<3.15'
+          if ($LASTEXITCODE) { exit 1 }
+
+      - name: Collect report
+        if: always()
+        run: |
+          New-Item -ItemType Directory -Force report | Out-Null
+          Copy-Item "$HOME\ai-eng\setup-report.txt", "$HOME\ai-eng\setup.log" report\ -ErrorAction SilentlyContinue
+          exit 0
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-report-windows
+          path: report/
+          if-no-files-found: ignore
