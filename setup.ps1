@@ -404,15 +404,22 @@ if (Test-Command 'uv') {
 # ---- Python: any version from 3.12 to 3.14 is fine. If there's none,
 # uv installs $PythonVersion into ~\ai-eng\python.
 function Get-PythonVersionText([string]$Exe) {
-    return Get-FirstLine $Exe @('-c', 'import sys; print("%d.%d.%d" % sys.version_info[:3])')
+    # No quotes inside: Windows PowerShell 5.1 strips double quotes from arguments
+    # passed to programs, which silently broke an earlier version of this line.
+    return Get-FirstLine $Exe @('-c', 'import sys; print(*sys.version_info[:3], sep=chr(46))')
 }
 if (-not (Test-Command 'uv')) {
     Write-Info 'Python' 'not checked (needs uv)'
 } else {
     $pyInstalled = $false
     $py = Get-FirstLine 'uv' @('python', 'find', '--no-project', $PyRange)
-    if ($py -and (Test-Path -LiteralPath $py)) {
-        Write-Ok 'Python' (Get-PythonVersionText $py)
+    $pyVer = ''
+    if ($py -and (Test-Path -LiteralPath $py)) { $pyVer = Get-PythonVersionText $py }
+    if ($pyVer) {
+        Write-Ok 'Python' $pyVer
+    } elseif ($py -and (Test-Path -LiteralPath $py)) {
+        Write-Warn 'Python' "found at $py, but it didn't report its version"
+        Write-Hint "Try running it: & '$py' --version"
     } elseif ($checkOnly) {
         Write-Fail 'Python' "no Python $PyRangeText installed"; Write-Hint $rerun
     } else {

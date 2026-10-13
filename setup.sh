@@ -398,14 +398,17 @@ fi
 
 # ---- Python: any version from 3.12 to 3.14 is fine. If there's none,
 # uv installs $PYTHON_VERSION into ~/ai-eng/python.
-py_version() { "$1" -c 'import sys; print("%d.%d.%d" % sys.version_info[:3])' 2>/dev/null; }
+py_version() { "$1" -c 'import sys; print(*sys.version_info[:3], sep=chr(46))' 2>/dev/null; }
 if ! have uv; then
   info "Python" "not checked (needs uv)"
 else
   PY_INSTALLED=0
   py="$(uv python find --no-project "$PY_RANGE" 2>/dev/null || true)"
-  if [ -n "$py" ]; then
-    ok "Python" "$(py_version "$py")"
+  if [ -n "$py" ] && pyv="$(py_version "$py")" && [ -n "$pyv" ]; then
+    ok "Python" "$pyv"
+  elif [ -n "$py" ]; then
+    warn "Python" "found at $py, but it didn't report its version"
+    hint "Try running it: \"$py\" --version"
   elif [ "$CHECK" -eq 1 ]; then
     fail "Python" "no Python $PY_MIN-$PY_MAX installed"; hint "$RERUN"
   else
