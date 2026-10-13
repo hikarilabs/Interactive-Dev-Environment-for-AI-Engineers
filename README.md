@@ -1,20 +1,20 @@
-<p align = "center" draggable=”false” ><img src="https://github.com/AI-Maker-Space/LLM-Dev-101/assets/37101144/d1343317-fa2f-41e1-8af1-1dbb18399719" 
+<p align = "center" draggable="false" ><img src="https://github.com/AI-Maker-Space/LLM-Dev-101/assets/37101144/d1343317-fa2f-41e1-8af1-1dbb18399719" 
      width="200px"
-     height="auto"/>
+     height="auto" alt=""/>
 </p>
 
 
 ## <h1 align="center" id="heading">:wave: Interactive Dev Environment (IDE) for AI Engineers </h1>
 
 <p align="center">
-  <img src="images/ai_engineer_at_workstation.jpg" alt="AI Engineer Setting Up Dev Env" width="300" />
+  <img src="images/ai_engineer_at_workstation.jpg" alt="AI Engineer Setting Up Dev Env" width="350" />
 </p>
 
 ### <h3 align="center"> Getting Started 🏗️ Building, 🚢 Shipping, and 🚀 Sharing Production LLM Applications!!
 
 🛣️ Welcome to the beginning of your journey to become an AI Engineer! 
 
-This tutorial is designed to guide you through the process of setting up your Interactive Development Environment (IDE) to align with best-practices at [The LLM Edge](https://newsletter.aimakerspace.io/)!
+This tutorial is designed to guide you through the process of setting up your Interactive Development Environment (IDE) to align with best practices at [The LLM Edge](https://newsletter.aimakerspace.io/)!
 
 ### 🤖 AI Editors Supported 
 * [Visual Studio Code](https://github.com/microsoft/vscode)
@@ -31,36 +31,36 @@ Note: If you prefer Cursor, Codex, or another tool, then you'll be on your own i
 
 <p></p>
 
-## :hammer_and_wrench: Basic Concepts and Code
+## Basic Concepts and Code
 
-We will be using a few core tools in our stack such as a `terminal`, `Command Line Interface (CLI)`, `git`, `uv`, and `pip`.
+We will be using a few core tools in our stack such as a `terminal`, `Command Line Interface (CLI)`, `git`, `uv`, and `claude`.
 <details>
 <summary>Terminal and Command Line Interface </summary>
 
-We must use both terminal and a Command Line Interface (CLI) to develop AI applications with open-source tools. This is true regardless of our operating system.
+We use both a terminal and a Command Line Interface (CLI) to develop AI applications with open-source tools. This is true regardless of the operating system.
 
 A terminal is a software application like macOS Terminal or Windows Terminal that gives you a window where you type text-based commands and receive text-based output.
 
 A Command Line Interace (CLI) refers to the environment or shell (e.g., Bash, Zsh, PowerShell, etc.) that interprets your text commands. The CLI is the program that actually runs commands and processes input/output; it just happens to run inside a terminal application (or emulator).
 
-Here is a quick review of some terminal commands that you  should make sure you know! It's important to understand both syntax and what they do! 
+Here is a quick review of some of the terminal commands that you should know. It's important to understand both syntax and what they do! 
 
-| Command      | Stands For |  Description |
-| ----------- | ----------- | -------------|
-| `ls`      | long listing       | lists all files and directories in the present working directory |
-| `ls -a`  | long listing all   |  lists hidden files as well |
-| `cd {dirname}`      | change directory       | to change to a particular directory |
-| `cd ~`   | change directory home        | navigate to HOME directory |
-| `cd ..`      | change directory up       | move one level up |
-| `cat {filename}`   | concatenate        | displays the file content |
-| `sudo`      | superuser       | allows regular users to run programs with the security privileges of the superuser or root |
-| `mv {filename} {newfilename}`   | move        | renames the file to new filename |
-| `clear`      | clear       | clears the terminal screen |
-| `mkdir {dirname}`   | make directory        | create new directory in present working directory or at specified path |
-| `rm {filename}`   | remove        | remove file with given filename |
-| `touch {filename}.{ext}`   | touch        | create new empty file |
-| `rmdir {dirname}`   | remove directory        | deletes a directory |
-| `ssh {username}@{ip-address} or {hostname}`   | secure shell        | login into a remote Linux machine using SSH |
+| Command                                     | Stands For            | Description                                                                                |
+|---------------------------------------------|-----------------------|--------------------------------------------------------------------------------------------|
+| `ls`                                        | long listing          | lists all files and directories in the present working directory                           |
+| `ls -a`                                     | long listing all      | lists hidden files as well                                                                 |
+| `cd {dirname}`                              | change directory      | to change to a particular directory                                                        |
+| `cd ~`                                      | change directory home | navigate to HOME directory                                                                 |
+| `cd ..`                                     | change directory up   | move one level up                                                                          |
+| `cat {filename}`                            | concatenate           | displays the file content                                                                  |
+| `sudo`                                      | superuser             | allows regular users to run programs with the security privileges of the superuser or root |
+| `mv {filename} {newfilename}`               | move                  | renames the file to new filename                                                           |
+| `clear`                                     | clear                 | clears the terminal screen                                                                 |
+| `mkdir {dirname}`                           | make directory        | create new directory in present working directory or at specified path                     |
+| `rm {filename}`                             | remove                | remove file with given filename                                                            |
+| `touch {filename}.{ext}`                    | touch                 | create new empty file                                                                      |
+| `rmdir {dirname}`                           | remove directory      | deletes a directory                                                                        |
+| `ssh {username}@{ip-address} or {hostname}` | secure shell          | login into a remote Linux machine using SSH                                                |
 
 </details>
 
@@ -119,7 +119,7 @@ windows-terminal-as-your-default-command-line-experience/))
 
 * Install [Ubuntu](https://www.microsoft.com/en-us/p/ubuntu/9pdxgncfsczv?activetab=pivot:overviewtab)
 
-* Make sure you've install the correct version with the command `wsl -l -v`
+* Make sure you've installed the correct version with the command `wsl -l -v`
     
 (If you find yourself getting stuck on the WSL2 install, [here](https://www.youtube.com/watch?v=VMZH9Pj2dXw&ab_channel=StefanRows) is a link to video instructions)
 
@@ -127,14 +127,14 @@ Give it a test drive!
 
 ![WindowsTerminal](https://user-images.githubusercontent.com/72572922/160048214-37f08855-8b29-4c13-9d25-e0f69806f752.jpg)
 
-Continue by installing the following tools using [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) to setup your environment.
+Continue by installing the following tools using [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) to set up your environment.
 
-| Tool | Purpose | Command                                                                                           |
-| :-------- | :-------- | :------------------------------------------------------------------------------------------------ |
-| :snake: **uv** (installed in WSL2) | Python Package Manager | `curl -LsSf https://astral.sh/uv/install.sh | sh` <br> `source ~/.bashrc` |
-| :octocat: **Git** (installed in WSL2) | Version Control | `sudo apt update && sudo apt upgrade` <br> `sudo apt install git-all`   |
-| :memo: **VS Code** (installed in Windows) | Development Environment | [Download](https://code.visualstudio.com/download) |
-| :memo: **Cursor** | Development Environment | [Download](https://www.cursor.com/downloads) |
+| Tool                                      | Purpose                 | Command                                                                |
+|:------------------------------------------|:------------------------|:-----------------------------------------------------------------------|
+| :snake: **uv** (installed in WSL2)        | Python Package Manager  | `curl -LsSf https://astral.sh/uv/install.sh \| sh && source ~/.bashrc` |
+| :octocat: **Git** (installed in WSL2)     | Version Control         | `sudo apt update && sudo apt upgrade` <br> `sudo apt install git-all`  |
+| :memo: **VS Code** (installed in Windows) | Development Environment | [Download](https://code.visualstudio.com/download)                     |
+| :memo: **Cursor**                         | Development Environment | [Download](https://www.cursor.com/downloads)                           |
 
 </details>
 
@@ -173,12 +173,12 @@ To get started, we need to download the MacOS package manager, <strong>Homebrew<
 
 Enter the following commands in terminal to setup your environment.
 
-| Tool | Purpose | Command                                                                                           |
-| :-------- | :-------- | :------------------------------------------------------------------------------------------------ |
-| :snake: **uv**  | Python Package Manager | `curl -LsSf https://astral.sh/uv/install.sh | sh` <br> `source ~/.bashrc` |
-| :octocat: **Git**  | Version Control | `brew install git`   |
+| Tool               | Purpose                 | Command                                            |
+|:-------------------|:------------------------|:---------------------------------------------------|
+| :snake: **uv**     | Python Package Manager  | `curl -LsSf https://astral.sh/uv/install.sh        | sh` <br> `source ~/.bashrc` |
+| :octocat: **Git**  | Version Control         | `brew install git`                                 |
 | :memo: **VS Code** | Development Environment | [Download](https://code.visualstudio.com/download) |
-| :memo: **Cursor** | Development Environment | [Download](https://www.cursor.com/downloads) |
+| :memo: **Cursor**  | Development Environment | [Download](https://www.cursor.com/downloads)       |
 
 </details>
 
