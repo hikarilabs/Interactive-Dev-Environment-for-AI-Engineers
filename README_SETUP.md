@@ -1,123 +1,124 @@
-# Getting started
+# How To Get Started
 
-You'll do everything in one app: **VS Code**. Install it first, like any other app. From then on, every command goes into the terminal *inside* VS Code, so the steps are the same on Mac and Windows.
+You will be using only one application throughout the entire course – **VS Code**. First, install VS Code as you would any other application. Once installed, all future commands will be entered into the terminal *within* VS Code; therefore, the process will be identical on both Macs and Windows. It should take approximately 15 minutes to complete the installation.
 
-It takes about 15 minutes. You can run the setup again at any time: anything already done is skipped.
+At any point during the course, you can re-run the setup; however, anything that has already been completed will be skipped.
 
 ## 1. Install VS Code
 
-Download it from **[code.visualstudio.com/download](https://code.visualstudio.com/download)**.
+Download VS Code from **[code.visualstudio.com/download](https://code.visualstudio.com/download)**.
 
-**Mac**
-1. Open the downloaded file. You get **Visual Studio Code**.
-2. Drag it into your **Applications** folder. This matters: if it runs from Downloads, updates and the `code` command don't work.
-3. Open it from Applications. If macOS asks whether to open an app downloaded from the internet, click **Open**.
+### Mac
+1. Open the downloaded file. You will now have **Visual Studio Code**.
+2. Move **Visual Studio Code** into your **Applications** folder. This is important: if you run VS Code from your Downloads folder, you will not receive updates and the `code` command will not function correctly.
+3. Open VS Code from your Applications folder. If macOS asks you if you wish to open an application downloaded from the internet, select **Open**.
 
-**Windows**
-1. Run the installer and accept the defaults. Keep **Add to PATH** ticked (it is by default).
-2. On the last screen, leave **Launch Visual Studio Code** ticked and click **Finish**.
+### Windows
+1. Run the installer and accept all default settings. Ensure that the option to **Add to PATH** remains checked (it is checked by default).
+2. On the final screen, leave the option to **Launch Visual Studio Code** checked and click **Finish**.
 
-**Linux:** use the `.deb` (Ubuntu, Debian) or `.rpm` (Fedora) download.
+### Linux:
+Use either the `.deb` (Ubuntu, Debian) or `.rpm` (Fedora) download options.
 
-## 2. Open the terminal inside VS Code
+## 2. Open Terminal Within VS Code
 
-In the menu bar choose **Terminal → New Terminal**. A panel opens at the bottom of the window.
+In the top menu bar, select **Terminal → New Terminal**. A panel will appear at the bottom of the window.
 
-Look at the start of the line in that panel to know which command to use in the next step:
+To determine which command to use in the following step, examine the beginning of the line in that panel:
 
-| You see                                             | You're on    | Use                       |
-|:----------------------------------------------------|:-------------|:--------------------------|
-| A line starting with `PS`, e.g. `PS C:\Users\ana>`  | Windows      | the **Windows** command   |
-| A line ending in `%` or `$`, e.g. `ana@MacBook ~ %` | Mac or Linux | the **Mac/Linux** command |
+| If you see...                                            | You are on... | Use...                    |
+|----------------------------------------------------------|---------------|---------------------------|
+| A line beginning with `PS`, such as `PS C:\Users\ana>`   | Windows       | The **Windows** command   |
+| A line ending with `%` or `$`, such as `ana@MacBook ~ %` | Mac/Linux     | The **Mac/Linux** command |
 
-> **Windows:** if the panel says `bash` instead, click the small arrow next to the **+** at the top right of the panel and choose **PowerShell**.
+> **Windows:** If the panel displays `bash` instead of `PS`, click the small arrow next to the **+** symbol at the top right of the panel and select **PowerShell**.
 
-## 3. Run the setup
+## 3. Run Setup
 
-Copy the command relevant to your operating system, paste it into the terminal (**Cmd+V** on Mac, **Ctrl+V** on Windows) and press **Enter**.
+Copy the appropriate command for your operating system and paste it into the terminal (**Cmd+V** on Mac, **Ctrl+V** on Windows). Press **Enter**.
 
-**Mac/Linux**
+### Mac/Linux
 ```bash
 mkdir -p ~/ai-eng && curl -fsSL https://raw.githubusercontent.com/<ORG>/<REPO>/main/setup.sh -o ~/ai-eng/setup.sh && bash ~/ai-eng/setup.sh
 ```
 
-**Windows**
+### Windows
 ```powershell
 mkdir -Force $HOME\ai-eng | Out-Null; irm https://raw.githubusercontent.com/<ORG>/<REPO>/main/setup.ps1 -OutFile $HOME\ai-eng\setup.ps1; powershell -ExecutionPolicy Bypass -File $HOME\ai-eng\setup.ps1
 ```
 
-The setup goes through the course's tools one by one. For each one, it checks whether you already have it and installs or fixes it only if needed:
+The setup script will go through each tool used in this course one by one. For each tool, it will check if you already have it installed and will only install or fix it if necessary:
 
-| Tool                     | What it's for                                                                                                                       |
-|:-------------------------|:------------------------------------------------------------------------------------------------------------------------------------|
-| Git                      | Saves versions of your work and talks to GitHub                                                                                     |
-| uv and Python            | Runs Python and installs each project's packages. Any Python from 3.12 to 3.14 you already have is fine; otherwise it installs 3.13 |
-| nvm and Node.js 22       | Runs JavaScript tools and web front ends                                                                                            |
-| Claude Code              | Your AI coding assistant in the terminal                                                                                            |
-| VS Code's `code` command | Opens a folder in VS Code from the terminal                                                                                         |
+| Tool                     | Purpose                                                                                                                                                          |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Git                      | Saves versions of your work and communicates with GitHub                                                                                                         |
+| uv and Python            | Runs Python and installs each project's packages. Any version of Python from 3.12 to 3.14 that you currently have is acceptable; otherwise, it will install 3.13 |
+| nvm and Node.js 22       | Runs JavaScript tools and web front ends                                                                                                                         |
+| Claude Code              | Your AI coding assistant in the terminal                                                                                                                         |
+| VS Code's `code` command | Opens a directory in VS Code from the terminal                                                                                                                   |
 
-Anything it installs goes into a folder called **`ai-eng`** in your home folder, so nothing is scattered around your computer. Tools you already have are kept, not installed twice.
+All tools installed by the setup script will be placed in a directory named **`ai-eng`** located in your home directory; thus, none of these tools will be scattered across your computer. Tools you already have installed will not be installed again.
 
-It asks you a few things along the way:
+During the setup process, you may be asked several questions:
 
-* **Mac:** whether you want Homebrew. It's optional: press **Enter** to skip it.
-* **Everyone:** your name and email for Git.
-* **Everyone:** to add your computer's key to GitHub. It copies the key and opens the right GitHub page for you.
+* **Mac:** Do you want Homebrew? This is optional: press **Enter** to skip.
+* **Everyone:** What is your name and email address for Git?
+* **Everyone:** Would you like to add your computer's key to GitHub? The setup script will copy the key and open the correct GitHub page for you.
 
-Each line of the output shows one of:
+Each line of output produced by the setup script will indicate one of the following:
 
-|          | Meaning                                                |
-|:---------|:-------------------------------------------------------|
-| `[ OK ]` | Already working, nothing to do                         |
-| `[DONE]` | Just installed or fixed                                |
-| `[ -- ]` | Optional and skipped. That's fine                      |
-| `[WARN]` | Works, but worth a look. Follow the `->` hint under it |
-| `[FAIL]` | Needs fixing. Follow the `->` hint under it            |
+| Output   | Indication                                                                                                 |
+|----------|------------------------------------------------------------------------------------------------------------|
+| `[ OK ]` | Tool is already installed and working; no action needed                                                    |
+| `[DONE]` | Tool was just installed or fixed                                                                           |
+| `[ -- ]` | Tool is optional and was skipped; this is acceptable                                                       |
+| `[WARN]` | Tool is installed and working; however, there is an issue worth reviewing. Refer to the `->` hint below it |
+| `[FAIL]` | Tool requires fixing; refer to the `->` hint below it                                                      |
 
-## 4. Load the tools into your terminal
+## 4. Load Tools Into Your Terminal
 
-The setup doesn't add the tools to every terminal automatically. You load them when you want them, and closing the terminal unloads them again, so nothing lingers on your computer that you didn't ask for. Run this in the terminal:
+The setup script does not automatically add the tools to every terminal. Instead, you load them when needed; once you close the terminal, they are unloaded again. This prevents unwanted tools from remaining on your computer. To load the tools into your terminal, execute the following command:
 
-**Mac/Linux**
+### Mac/Linux
 ```bash
 source ~/ai-eng/env.sh
 ```
 
-**Windows**
+### Windows
 ```powershell
 . $HOME\ai-eng\env.ps1
 ```
 
-Do this in **each new terminal** you use for course work. If a command such as `uv`, `node` or `claude` says *not found*, this step was missed.
+Execute this command in **every new terminal** you use for coursework. If a command such as `uv`, `node` or `claude` results in an error message stating *not found*, then this step was skipped.
 
-The one exception is VS Code's `code` command, which opens a folder in VS Code. It's set up once and works in every new terminal.
+The only exception to this rule is VS Code's `code` command which opens a directory in VS Code. This is configured once and will work in every new terminal.
 
-## 5. Check that everything works
+## 5. Verify Everything Works Correctly
 
-Run the setup again with **check**. It only looks and changes nothing:
+To verify that everything is working correctly, run the setup script again using **check**. This will only verify that everything is correct and will not make any changes:
 
-**Mac/Linux**
+### Mac/Linux
 ```bash
 bash ~/ai-eng/setup.sh --check
 ```
 
-**Windows**
+### Windows
 ```powershell
 powershell -ExecutionPolicy Bypass -File $HOME\ai-eng\setup.ps1 -Check
 ```
 
-You want to see **All good**. Anything else:
+Ideally, you want to see **All good**. If you see anything else:
 
-* **Most problems:** run the setup again without `--check`. It's safe to repeat: it skips what's done and retries the rest.
-* **A hint says to open a new terminal:** choose **Terminal → New Terminal**, then load the tools again (step 4).
-* **Still stuck?** The setup copies a report to your clipboard. Paste it into the course help channel. It's also saved in `ai-eng/setup-report.txt`, with full details in `ai-eng/setup.log`.
+* **Most issues:** Run the setup script again without `--check`. It is safe to repeat this process: it will skip what has been completed and attempt what remains.
+* **A hint indicates to open a new terminal:** Select **Terminal → New Terminal**, then load the tools again (Step 4).
+* **Still experiencing issues?** The setup script will copy a report to your clipboard. Paste this report into the course help channel. Additionally, a copy of this report is saved in `ai-eng/setup-report.txt`, with complete details in `ai-eng/setup.log`.
 
-> **API keys** (OpenAI, Anthropic) aren't part of this setup: each project keeps its own in a `.env` file. See [API keys](API_KEYS.md).
+> **API Keys** (OpenAI, Anthropic) are not included in this setup: each project maintains its own API keys in a `.env` file. Refer to [API Keys](API_KEYS.md).
 
-## Using PyCharm or another JetBrains IDE instead
+## Using PyCharm Or Another JetBrains IDE Instead
 
-Everything works the same way because JetBrains IDEs have a built-in terminal too. Only step 2 differs: open the terminal with **View → Tool Windows → Terminal** (or **Alt+F12**, **⌥F12** on Mac).
+All aspects of this process are identical regardless of whether you use PyCharm or another JetBrains IDE since JetBrains IDEs also include a built-in terminal. Only Step 2 differs: open the terminal using **View → Tool Windows → Terminal** (or **Alt+F12**, **⌥F12** on Mac).
 
-The setup notices when it runs inside a JetBrains IDE, so it won't complain that VS Code is missing.
+The setup script detects when it runs within a JetBrains IDE; therefore, it will not indicate that VS Code is missing.
 
-The rest of the course guides show VS Code screens. JetBrains IDEs have their own equivalents for notebooks and Claude Code.
+All later guides provided in this course illustrate screens from VS Code. JetBrains IDEs have their own equivalents for notebooks and Claude Code.
